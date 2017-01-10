@@ -1,20 +1,17 @@
 {
-  "name": "NodejsStarterApp",
-  "version": "0.0.1",
-  "private": true,
+  "name": "filter",
+  "version": "1.0.0",
+  "description": "filter test",
+  "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "Charalampos Georgiadis",
+  "license": "MIT",
   "dependencies": {
-    "cfenv": "1.0.x",
-    "express": "4.13.x",
-    "mqtt": "^2.0.1"
-  },
-  "repository": {},
-  "engines": {
-    "node": "4.x"
-  },
-  "devDependencies": {
-    "amqplib": "^0.5.0"
+    "amqplib": "^0.5.1",
+    "body-parser": "^1.15.2",
+    "connect": "^3.5.0",
+    "express": "^4.14.0"
   }
 }
