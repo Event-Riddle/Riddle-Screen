@@ -27,7 +27,6 @@ var app = express();
 //   console.log("server starting on " + appEnv.url);
 // });
 
-
 var bodyParser = require('body-parser');
 var http = require('http');
 // var filter = require('filter');
@@ -39,13 +38,18 @@ app.use(bodyParser.json());
 
 app.post('/activate', function(req, res) {
   console.log("i was activated");
-  console.log(req.body);
+  //console.log(req.body);
   startFilter();
+  res.end('filter was activated - response 200 OK ');
 });
 
 app.post('/deactivate', function(req, res) {
   console.log("i was deactivated");
   console.log(req.body);
+  var response = stopFilter();
+  console.log(response);
+  if(response == false) res.end('filter is not activate - response 400 ');
+  res.end('filter was deactivated - response 200 OK ');
   //TODO: disconnect honeypot
 });
 
@@ -54,8 +58,13 @@ httpserv = http.createServer(app).listen(8888, function() {
 });
 
 function startFilter(){
+  console.log("filter started")
   honeypot.init("filter", "lucullus");
   honeypot.connect('amqp://vvesrlkq:7cTOIc7-W2awpfANfNqHsFx7tMfocTds@white-swan.rmq.cloudamqp.com/vvesrlkq', filter);
+}
+
+function stopFilter(){
+  return honeypot.disconnect();
 }
 
 function filter(){

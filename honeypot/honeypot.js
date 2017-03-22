@@ -2,7 +2,7 @@ var amqp = require('amqplib/callback_api');
 // create a new event filter
 var filterInstance = require('../filter/filter');
 var puber = null;
-
+var connect = "";
 var honeypot = function() {
     var sourceQ = "";
     var targetQ = "";
@@ -41,21 +41,21 @@ var honeypot = function() {
         ch.assertQueue(sourceQ, common_options);
         ch.consume(sourceQ, function(msg) {
           if (msg !== null) {
-            console.log(msg.content.toString());
+
+            console.log(JSON.parse(msg.content.toString()));
             ch.ack(msg);
             console.log('im Cunsumer');
-            filtered = filterInstance.filterEvent(msg.content.toString());
-            // puber.publish("", "lucullus", new Buffer(filtered), { persistent: false },
-            //           function(err, ok) {
-            //             if (err) {
-            //               console.error("[AMQP] publish", err);
-            //             }
-            //           });
-            console.log('wieder draußen');
-            console.log(filtered);
-            if(filtered != 'undefined' && filtered){
-              puber.sendToQueue(targetQ, new Buffer(filtered));
+            filtered = filterInstance.filterEvent(JSON.parse(msg.content.toString()));
+
+
+            console.log("This is filtered " + JSON.stringify(filtered));
+            if(filtered != 'undefined' && filtered){ console.log('publish erfolgt');
+              puber.sendToQueue(targetQ, new Buffer(JSON.stringify(filtered)));
             }
+
+        //    curl -H "Content-Type: application/json" -X POST -d '{"active":false,"filter-top-id":"value","filter-bottom-id":"value","threshold-value-top":value,"threshold-value-bottom":value,"unit":"cm"}' http://localhost:8888/activate
+
+
           }
         });
       }
@@ -64,6 +64,7 @@ var honeypot = function() {
     function _connect(url, filter) {
       amqp.connect(url, function(err, conn) {
           if (err != null) bail(err);
+          connect = conn;
           publisher(conn);
         //  console.log(puber);
           consumer(conn, filter, puber);
@@ -71,8 +72,16 @@ var honeypot = function() {
         });
     }
 
+    function _disconnect() {
+      if(connect == "") return false;
+      connect.close();
+      return true;
+
+    }
+
     return {
       connect: _connect,
+      disconnect: _disconnect,
       init: _init
     };
 }
