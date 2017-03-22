@@ -1,6 +1,5 @@
 var amqp = require('amqplib/callback_api');
-// create a new event filter
-var filterInstance = require('../filter/filter');
+
 var puber = null;
 var connect = "";
 var honeypot = function() {
@@ -45,11 +44,12 @@ var honeypot = function() {
             console.log(JSON.parse(msg.content.toString()));
             ch.ack(msg);
             console.log('im Cunsumer');
-            filtered = filterInstance.filterEvent(JSON.parse(msg.content.toString()));
+            filtered = filter.filterEvent(JSON.parse(msg.content.toString()));
 
 
             console.log("This is filtered " + JSON.stringify(filtered));
-            if(filtered != 'undefined' && filtered){ console.log('publish erfolgt');
+            if(filtered != 'undefined' && filtered){
+              console.log('publish succeeded');
               puber.sendToQueue(targetQ, new Buffer(JSON.stringify(filtered)));
             }
 

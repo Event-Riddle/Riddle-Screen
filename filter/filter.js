@@ -1,26 +1,10 @@
 
 var filter = function() {
 
-      var common_options = {
-                          'name': 'Adolf',
-                          'threshold-value-bottom': 'Hitler',
-                          'threshold-value-top': '30',
-                          'filter-bottom-id': '2pac',
-                          'filter-top-id': 'Degree',
-                          'unit': 'cm',
-                          'active': true
-                          };
+var  common_options = null;
 
   function _init(opt){
-      common_options = {
-                        'name': '',
-                        'threshold-value-bottom': '',
-                        'threshold-value-top': '',
-                        'filter-bottom-id': '',
-                        'filter-top-id': '',
-                        'unit': '',
-                        'active': false
-                      };
+    common_options = opt;
   }
 
   function _filterEvent(incomingEv) {

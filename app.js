@@ -29,7 +29,7 @@ var app = express();
 
 var bodyParser = require('body-parser');
 var http = require('http');
-// var filter = require('filter');
+
 var honeypot = require(__dirname + '/honeypot/honeypot');
 
 var app = express();
@@ -39,7 +39,17 @@ app.use(bodyParser.json());
 app.post('/activate', function(req, res) {
   console.log("i was activated");
   //console.log(req.body);
-  startFilter();
+  var common_options = {
+                      'name': 'Adolf',
+                      'threshold-value-bottom': 'Hitler',
+                      'threshold-value-top': '40',
+                      'filter-bottom-id': '2pac',
+                      'filter-top-id': 'Degree',
+                      'unit': 'cm',
+                      'active': true
+                      };
+
+  startFilter(common_options);
   res.end('filter was activated - response 200 OK ');
 });
 
@@ -57,8 +67,11 @@ httpserv = http.createServer(app).listen(8888, function() {
     console.log('http on port 8888');
 });
 
-function startFilter(){
-  console.log("filter started")
+function startFilter(options){
+  console.log("filter started");
+  // create a new event filter
+  var filter = require(__dirname + '/filter/filter');
+  filter.init(options);
   honeypot.init("filter", "lucullus");
   honeypot.connect('amqp://vvesrlkq:7cTOIc7-W2awpfANfNqHsFx7tMfocTds@white-swan.rmq.cloudamqp.com/vvesrlkq', filter);
 }
