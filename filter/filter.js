@@ -28,7 +28,7 @@ var  common_options_init = null;
               }
            }
         }
-
+      }
     })
     if(filtered){
       return false;
