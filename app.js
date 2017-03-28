@@ -38,12 +38,12 @@ app.use(bodyParser.json());
 
 app.post('/activate', function(req, res) {
   console.log("i was activated");
-  //console.log(req.body);
+  console.log(req.body);
   var common_options = [
                         {
                           'name': 'TestFilter',
-                          'threshold-value-bottom': 'filter',
-                          'threshold-value-top': '40',
+                          'threshold-value-bottom': '50',
+                          'threshold-value-top': '35',
                           'filter-bottom-id': '2pac',
                           'filter-top-id': 'Degree',
                           'unit': 'cm',
@@ -51,8 +51,8 @@ app.post('/activate', function(req, res) {
                         },
                         {
                           'name': 'TestFilter2',
-                          'threshold-value-bottom': 'filter',
-                          'threshold-value-top': 'TestDivice',
+                          'threshold-value-bottom': '40',
+                          'threshold-value-top': '30',
                           'filter-bottom-id': '2pac',
                           'filter-top-id': 'Name',
                           'unit': 'cm',

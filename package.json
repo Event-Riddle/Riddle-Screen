@@ -1,19 +1,19 @@
 {
-"name": "filter",
-"version": "0.0.1",
-"private": true,
-"scripts": {
-"start": "node app.js"
-},
-"dependencies": {
-"express": "4.13.x",
-"cfenv": "1.0.x",
-    "connect": "^3.5.0",
-    "amqplib": "^0.5.1",
-    "body-parser": "^1.15.2"
-},
-"repository": {},
-"engines": {
-"node": "4.x"
-}
+	"name": "filter",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node app.js"
+	},
+	"dependencies": {
+		"express": "4.13.x",
+		"cfenv": "1.0.x",
+		"connect": "^3.5.0",
+		"amqplib": "^0.5.1",
+		"body-parser": "^1.15.2"
+	},
+	"repository": {},
+	"engines": {
+		"node": "4.x"
+	}
 }

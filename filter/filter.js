@@ -17,9 +17,16 @@ var  common_options_init = null;
         if (common_options['active'] == true) {
           if (incoming[common_options['filter-top-id']] == common_options['threshold-value-top']) {
 
-                 console.log('drin2');
                  filtered = true;
                  //return false;
+
+                 if (common_options['threshold-value-bottom'] != undefined){
+                    if (incoming[common_options['filter-top-id']] >= common_options['threshold-value-top'] && incoming[common_options['filter-top-id']] <= common_options['threshold-value-bottom']){
+                      console.log('range between ' + common_options['threshold-value-top'] + ' and ' + common_options['threshold-value-bottom']);
+                      console.log('event value ' + incoming[common_options['filter-top-id']]);
+                      filtered = true;
+                    }
+                 }
 
            }
           }
