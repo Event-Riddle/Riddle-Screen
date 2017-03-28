@@ -41,21 +41,18 @@ var honeypot = function() {
         ch.consume(sourceQ, function(msg) {
           if (msg !== null) {
 
-            console.log(JSON.parse(msg.content.toString()));
+          //  console.log(JSON.parse(msg.content.toString()));
             ch.ack(msg);
-            console.log('im Cunsumer');
+            console.log('in consumer');
             filtered = filter.filterEvent(JSON.parse(msg.content.toString()));
 
-
-            console.log("This is filtered " + JSON.stringify(filtered));
             if(filtered != 'undefined' && filtered){
               console.log('publish succeeded');
+              console.log("publish event: " + JSON.stringify(filtered));
               puber.sendToQueue(targetQ, new Buffer(JSON.stringify(filtered)));
+            }else {
+              console.log("event was excluded");
             }
-
-        //    curl -H "Content-Type: application/json" -X POST -d '{"active":false,"filter-top-id":"value","filter-bottom-id":"value","threshold-value-top":value,"threshold-value-bottom":value,"unit":"cm"}' http://localhost:8888/activate
-
-
           }
         });
       }

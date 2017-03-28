@@ -18,7 +18,7 @@ var app = express();
 // serve the files out of ./public as our main files
 //app.use(express.static(__dirname + '/public'));
 
-// // get the app environment from Cloud Foundry
+// get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
 
 // // start server on the specified port and binding host
@@ -27,45 +27,57 @@ var appEnv = cfenv.getAppEnv();
 //   console.log("server starting on " + appEnv.url);
 // });
 
+// parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 var bodyParser = require('body-parser');
+
 var http = require('http');
 
+// connect honeypot
 var honeypot = require(__dirname + '/honeypot/honeypot');
 
-var app = express();
-
+// use bodyParser
 app.use(bodyParser.json());
 
+// start filter
 app.post('/activate', function(req, res) {
   console.log("i was activated");
-  console.log(req.body);
-  // var common_options = [
-  //                       {
-  //                         'name': 'TestFilter',
-  //                         'threshold-value-bottom': '50',
-  //                         'threshold-value-top': '35',
-  //                         'filter-bottom-id': '2pac',
-  //                         'filter-top-id': 'Degree',
-  //                         'unit': 'cm',
-  //                         'active': true
-  //                       },
-  //                       {
-  //                         'name': 'TestFilter2',
-  //                         'threshold-value-bottom': '40',
-  //                         'threshold-value-top': '30',
-  //                         'filter-bottom-id': '2pac',
-  //                         'filter-top-id': 'Name',
-  //                         'unit': 'cm',
-  //                         'active': true
-  //                       }
-  //                     ];
+  // req.body = [
+  //                 {
+  //                   'name': 'TestFilter',
+  //                   'threshold-value-bottom': '25',
+  //                   'threshold-value-top': '29',
+  //                   'filter-bottom-id': '2pac',
+  //                   'filter-top-id': 'Degree',
+  //                   'unit': 'cm',
+  //                   'active': true
+  //                 },
+  //                 {
+  //                   'name': 'TestFilter2',
+  //                   'threshold-value-bottom': '40',
+  //                   'threshold-value-top': '30',
+  //                   'filter-bottom-id': '2pac',
+  //                   'filter-top-id': 'Name',
+  //                   'unit': 'cm',
+  //                   'active': true
+  //                 }
+  //               ];
+  if(req.body !== 'undefined' && Object.keys(req.body).length !=0){
+    console.log("request body: ");
+    console.log(req.body);
 
-                      var common_options = req.body;
+    var common_options = req.body;
 
-  startFilter(common_options);
+    startFilter(common_options);
+  }else {
+    console.log("request body is empty");
+    res.end('filter was stoped - response 409 empty request body ');
+    return false;
+  }
+
   res.end('filter was activated - response 200 OK ');
 });
 
+// deactivate filter
 app.post('/deactivate', function(req, res) {
   console.log("i was deactivated");
   console.log(req.body);
@@ -76,10 +88,12 @@ app.post('/deactivate', function(req, res) {
   //TODO: disconnect honeypot
 });
 
+// start server on the specified port and binding host
 httpserv = http.createServer(app).listen(appEnv.port, function() {
     console.log("server starting on " + appEnv.url);
 });
 
+// init filter and honeypot
 function startFilter(options){
   console.log("filter started");
   // create a new event filter
@@ -89,6 +103,7 @@ function startFilter(options){
   honeypot.connect('amqp://vvesrlkq:7cTOIc7-W2awpfANfNqHsFx7tMfocTds@white-swan.rmq.cloudamqp.com/vvesrlkq', filter);
 }
 
+//stopFilter
 function stopFilter(){
   return honeypot.disconnect();
 }
