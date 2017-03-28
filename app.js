@@ -19,8 +19,8 @@ var app = express();
 //app.use(express.static(__dirname + '/public'));
 
 // // get the app environment from Cloud Foundry
-// var appEnv = cfenv.getAppEnv();
-//
+var appEnv = cfenv.getAppEnv();
+
 // // start server on the specified port and binding host
 // app.listen(appEnv.port, '0.0.0.0', function() {
 //   // print a message when the server starts listening
@@ -39,15 +39,26 @@ app.use(bodyParser.json());
 app.post('/activate', function(req, res) {
   console.log("i was activated");
   //console.log(req.body);
-  var common_options = {
-                      'name': 'Adolf',
-                      'threshold-value-bottom': 'Hitler',
-                      'threshold-value-top': '40',
-                      'filter-bottom-id': '2pac',
-                      'filter-top-id': 'Degree',
-                      'unit': 'cm',
-                      'active': true
-                      };
+  var common_options = [
+                        {
+                          'name': 'TestFilter',
+                          'threshold-value-bottom': 'filter',
+                          'threshold-value-top': '40',
+                          'filter-bottom-id': '2pac',
+                          'filter-top-id': 'Degree',
+                          'unit': 'cm',
+                          'active': true
+                        },
+                        {
+                          'name': 'TestFilter2',
+                          'threshold-value-bottom': 'filter',
+                          'threshold-value-top': 'TestDivice',
+                          'filter-bottom-id': '2pac',
+                          'filter-top-id': 'Name',
+                          'unit': 'cm',
+                          'active': true
+                        }
+                      ];
 
   startFilter(common_options);
   res.end('filter was activated - response 200 OK ');
@@ -63,8 +74,8 @@ app.post('/deactivate', function(req, res) {
   //TODO: disconnect honeypot
 });
 
-httpserv = http.createServer(app).listen(8888, function() {
-    console.log('http on port 8888');
+httpserv = http.createServer(app).listen(appEnv.port, function() {
+    console.log("server starting on " + appEnv.url);
 });
 
 function startFilter(options){
