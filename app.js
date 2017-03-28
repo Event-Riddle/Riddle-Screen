@@ -70,7 +70,8 @@ app.post('/activate', function(req, res) {
     startFilter(common_options);
   }else {
     console.log("request body is empty");
-    res.end('filter was stoped - response 409 empty request body ');
+    console.log(req.body);
+    res.end('filter was stoped - response 409 empty request body!');
     return false;
   }
 
