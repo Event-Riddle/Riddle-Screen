@@ -60,7 +60,7 @@ app.post('/activate', function(req, res) {
   //                       }
   //                     ];
 
-                      var common_options = JSON.parse(req.body.toString());
+                      var common_options = req.body;
 
   startFilter(common_options);
   res.end('filter was activated - response 200 OK ');
