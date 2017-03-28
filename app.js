@@ -39,26 +39,28 @@ app.use(bodyParser.json());
 app.post('/activate', function(req, res) {
   console.log("i was activated");
   console.log(req.body);
-  var common_options = [
-                        {
-                          'name': 'TestFilter',
-                          'threshold-value-bottom': '50',
-                          'threshold-value-top': '35',
-                          'filter-bottom-id': '2pac',
-                          'filter-top-id': 'Degree',
-                          'unit': 'cm',
-                          'active': true
-                        },
-                        {
-                          'name': 'TestFilter2',
-                          'threshold-value-bottom': '40',
-                          'threshold-value-top': '30',
-                          'filter-bottom-id': '2pac',
-                          'filter-top-id': 'Name',
-                          'unit': 'cm',
-                          'active': true
-                        }
-                      ];
+  // var common_options = [
+  //                       {
+  //                         'name': 'TestFilter',
+  //                         'threshold-value-bottom': '50',
+  //                         'threshold-value-top': '35',
+  //                         'filter-bottom-id': '2pac',
+  //                         'filter-top-id': 'Degree',
+  //                         'unit': 'cm',
+  //                         'active': true
+  //                       },
+  //                       {
+  //                         'name': 'TestFilter2',
+  //                         'threshold-value-bottom': '40',
+  //                         'threshold-value-top': '30',
+  //                         'filter-bottom-id': '2pac',
+  //                         'filter-top-id': 'Name',
+  //                         'unit': 'cm',
+  //                         'active': true
+  //                       }
+  //                     ];
+
+                      var common_options = JSON.parse(req.body);
 
   startFilter(common_options);
   res.end('filter was activated - response 200 OK ');
