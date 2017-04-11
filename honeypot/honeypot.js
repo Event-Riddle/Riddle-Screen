@@ -70,7 +70,10 @@ var honeypot = function() {
     }
 
     function _disconnect() {
-      if(connect == "") return false;
+      if(connect == ""){
+        return false;
+      };
+      console.log('disconnect');
       connect.close();
       return true;
 
