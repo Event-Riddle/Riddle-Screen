@@ -17,8 +17,8 @@ var  common_options_init = null;
     common_options_init.forEach(function myFunction(common_options, index) {
       if( (common_options['name'] !== '' || common_options['name'] !== 'undefined') && common_options['name']) {
         if (common_options['active'] === true) {
-          if((common_options['threshold-value-bottom'] === '' || common_options['threshold-value-bottom'] === 'undefined') && (common_options['threshold-value-top'] !== '' || common_options['threshold-value-top'] != 'undefined')){
-             if (incoming[common_options['filter-top-id']] === common_options['threshold-value-top']) {
+          if((common_options['threshold-value-bottom'] === '' || common_options['threshold-value-bottom'] === 'undefined') && (common_options['threshold-value-top'] !== '' || common_options['threshold-value-top'] !== 'undefined')){
+             if (incoming[common_options['filter-top-id']] == common_options['threshold-value-top']) {
                    filtered = true;
              }
            } else if((common_options['threshold-value-bottom'] !== '' || common_options['threshold-value-bottom'] !== 'undefined') && (common_options['threshold-value-top'] !== '' || common_options['threshold-value-top'] !== 'undefined')) {
