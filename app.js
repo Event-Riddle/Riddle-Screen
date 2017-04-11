@@ -99,6 +99,8 @@ function startFilter(options){
   console.log("filter started");
   // create a new event filter
   var filter = require(__dirname + '/filter/filter');
+  //stop anny active filters
+  stopFilter();
   filter.init(options);
   honeypot.init("filter", "lucullus");
   honeypot.connect('amqp://vvesrlkq:7cTOIc7-W2awpfANfNqHsFx7tMfocTds@white-swan.rmq.cloudamqp.com/vvesrlkq', filter);
