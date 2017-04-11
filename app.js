@@ -61,7 +61,7 @@ app.post('/activate', function(req, res) {
   //                   'active': true
   //                 }
   //               ];
-  if(req.body !== 'undefined' && Object.keys(req.body).length !=0){
+  if(req.body !== undefined && Object.keys(req.body).length !=0){
     console.log("request body: ");
     console.log(req.body);
 

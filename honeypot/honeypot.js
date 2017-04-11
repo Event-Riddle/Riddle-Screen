@@ -46,7 +46,7 @@ var honeypot = function() {
             console.log('in consumer');
             filtered = filter.filterEvent(JSON.parse(msg.content.toString()));
 
-            if(filtered != 'undefined' && filtered){
+            if(filtered !== undefined && filtered){
               console.log('publish succeeded');
               console.log("publish event: " + JSON.stringify(filtered));
               puber.sendToQueue(targetQ, new Buffer(JSON.stringify(filtered)));
