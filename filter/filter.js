@@ -19,13 +19,21 @@ var  common_options_init = null;
         if (common_options['active'] === true) {
           if((common_options['threshold-value-bottom'] === '' || common_options['threshold-value-bottom'] === undefined) && (common_options['threshold-value-top'] !== '' || common_options['threshold-value-top'] !== undefined)){
              if (incoming[common_options['filter-top-id']] == common_options['threshold-value-top']) {
-                   filtered = true;
+               if (incoming['filtering'] === 'exclude'){
+                 filtered = true;
+               }else{
+                 filtered = false;
+               }
              }
            } else if((common_options['threshold-value-bottom'] !== '' || common_options['threshold-value-bottom'] !== undefined) && (common_options['threshold-value-top'] !== '' || common_options['threshold-value-top'] !== undefined)) {
               if (incoming[common_options['filter-top-id']] <= common_options['threshold-value-top'] && incoming[common_options['filter-top-id']] >= common_options['threshold-value-bottom']){
                 console.log('range between: ' + common_options['threshold-value-top'] + ' and ' + common_options['threshold-value-bottom']);
                 console.log('event value: ' + incoming[common_options['filter-top-id']]);
-                filtered = true;
+                if (incoming['filtering'] === 'exclude'){
+                  filtered = true;
+                }else{
+                  filtered = false;
+                }
               }
            }
         }
