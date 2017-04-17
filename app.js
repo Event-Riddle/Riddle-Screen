@@ -41,36 +41,17 @@ app.use(bodyParser.json());
 // start filter
 app.post('/activate', function(req, res) {
   console.log("i was activated");
-  // req.body = [
-  //                 {
-  //                   'name': 'TestFilter',
-  //                   'threshold-value-bottom': '25',
-  //                   'threshold-value-top': '29',
-  //                   'filter-bottom-id': '2pac',
-  //                   'filter-top-id': 'Degree',
-  //                   'unit': 'cm',
-  //                   'active': true
-  //                 },
-  //                 {
-  //                   'name': 'TestFilter2',
-  //                   'threshold-value-bottom': '40',
-  //                   'threshold-value-top': '30',
-  //                   'filter-bottom-id': '2pac',
-  //                   'filter-top-id': 'Name',
-  //                   'unit': 'cm',
-  //                   'active': true
-  //                 }
-  //               ];
-  if(req.body !== undefined && Object.keys(req.body).length !=0){
+
+  if(req.body !== undefined && Object.keys(req.body.filterinfo).length !=0){
     console.log("request body: ");
-    console.log(req.body);
+    console.log(req.body.filterinfo);
 
-    var common_options = req.body;
+    var common_options = req.body.filterinfo;
 
-    startFilter(common_options);
+    startFilter(common_options, req.body.topic);
   }else {
     console.log("request body is empty");
-    console.log(req.body);
+    console.log(req.body.filterinfo);
     res.end('filter was stoped - response 409 empty request body!');
     return false;
   }
@@ -81,7 +62,7 @@ app.post('/activate', function(req, res) {
 // deactivate filter
 app.post('/deactivate', function(req, res) {
   console.log("i was deactivated");
-  console.log(req.body);
+  console.log(req.body.filterinfo);
   var response = stopFilter();
   console.log(response);
   if(response == false) res.end('filter is not activate - response 400 ');
@@ -95,14 +76,14 @@ httpserv = http.createServer(app).listen(appEnv.port, function() {
 });
 
 // init filter and honeypot
-function startFilter(options){
+function startFilter(options, topic){
   console.log("filter started");
   // create a new event filter
   var filter = require(__dirname + '/filter/filter');
   //stop anny active filters
   stopFilter();
   filter.init(options);
-  honeypot.init("filter", "lucullus");
+  honeypot.init("filter", topic);
   honeypot.connect('amqp://vvesrlkq:7cTOIc7-W2awpfANfNqHsFx7tMfocTds@white-swan.rmq.cloudamqp.com/vvesrlkq', filter);
 }
 
