@@ -13,16 +13,22 @@ var  common_options_init = null;
 
     var incoming = incomingEv;
     var filtered = false;
-          console.log('common options: ');
-          console.log(common_options_init);
+
     common_options_init.forEach(function myFunction(common_options, index) {
+      console.log('in schleife');
       if( (common_options['name'] !== '' || common_options['name'] !== undefined) && common_options['name']) {
+        console.log('name ist auch gesetzt ');
         if (common_options['active'] === true) {
+          console.log('ist activiert');
           if((common_options['threshold-value-bottom'] === '' || common_options['threshold-value-bottom'] === undefined) && (common_options['threshold-value-top'] !== '' || common_options['threshold-value-top'] !== undefined)){
+console.log('trash bottom passt auch ');
              if (incoming[common_options['filter-top-id']] == common_options['threshold-value-top']) {
+               console.log('filter-top id gesetzt');
                if (common_options['filtering'] === 'exclude'){
+                 console.log('wird nicht mitgenommen');
                  filtered = true;
                }else{
+                 console.log('wird mitgenommen');
                  filtered = false;
                }
              }
