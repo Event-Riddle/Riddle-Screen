@@ -13,7 +13,7 @@ var  common_options_init = null;
 
           var incoming = incomingEv;
           var filtered = false;
-
+console.log(common_options);
     common_options_init.forEach(function myFunction(common_options, index) {
       if( (common_options['name'] !== '' || common_options['name'] !== undefined) && common_options['name']) {
         if (common_options['active'] === true) {
