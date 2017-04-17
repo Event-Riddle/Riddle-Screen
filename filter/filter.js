@@ -11,9 +11,10 @@ var  common_options_init = null;
 // excluded event handling
   function _filterEvent(incomingEv) {
 
-          var incoming = incomingEv;
-          var filtered = false;
-console.log(common_options);
+    var incoming = incomingEv;
+    var filtered = false;
+          console.log('common options: ');
+          console.log(common_options_init);
     common_options_init.forEach(function myFunction(common_options, index) {
       if( (common_options['name'] !== '' || common_options['name'] !== undefined) && common_options['name']) {
         if (common_options['active'] === true) {
