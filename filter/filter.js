@@ -35,13 +35,13 @@ var  common_options_init = null;
 
   function include(range, filteractive ,filtername, filtertopid, thresholdtop, thresholdbottom, coptfiltering, incoming){
     if (filteractive === true) {
-      if( (filtername !== '' || filtername !== undefined) && filtername == incoming['name']) {
+      if( (filtername !== '' || filtername !== undefined) && filtername ) {
         switch (range) {
             case true:
-                return _range(filtertopid, thresholdtop, thresholdbottom, coptfiltering, incoming);
+                return _range(filtertopid, thresholdtop, thresholdbottom, coptfiltering, filtername, incoming);
                 break;
             case false:
-                return _match(filtertopid, thresholdtop, coptfiltering, incoming);
+                return _match(filtertopid, thresholdtop, coptfiltering, filtername, incoming);
                 break;
             default:
             break;
@@ -55,14 +55,14 @@ var  common_options_init = null;
     }
   }
 
-  function _match(filtertopid, thresholdtop, coptfiltering, incoming){
+  function _match(filtertopid, thresholdtop, coptfiltering, filtername, incoming){
 
       switch (coptfiltering) {
         case 'exclude':
-          return _matchExclude(filtertopid, thresholdtop, incoming);
+          return _matchExclude(filtertopid, thresholdtop, filtername, incoming);
           break;
         case 'include':
-          return _matchInclude(filtertopid, thresholdtop, incoming);
+          return _matchInclude(filtertopid, thresholdtop, filtername, incoming);
           break;
         default:
 
@@ -71,31 +71,31 @@ var  common_options_init = null;
   }
 
 
-  function _matchInclude(filtertopid, thresholdtop, incoming) {
-    if (incoming[filtertopid] == thresholdtop) {
+  function _matchInclude(filtertopid, thresholdtop, filtername, incoming) {
+    if (incoming[filtertopid] == thresholdtop && filtername == incoming['name']) {
       return false;
     }else {
       return true;
     }
   }
 
-  function _matchExclude(filtertopid, thresholdtop, incoming) {
-    if (incoming[filtertopid] == thresholdtop) {
+  function _matchExclude(filtertopid, thresholdtop, filtername, incoming) {
+    if (incoming[filtertopid] == thresholdtop && filtername == incoming['name']) {
       return true;
     }else {
       return false;
     }
   }
 
-  function _range(filtertopid, thresholdtop, thresholdbottom, coptfiltering, incoming){
+  function _range(filtertopid, thresholdtop, thresholdbottom, coptfiltering, filtername, incoming){
 
 
       switch (coptfiltering) {
         case 'exclude':
-          return _rangeExclude(filtertopid, thresholdtop, thresholdbottom, incoming);
+          return _rangeExclude(filtertopid, thresholdtop, thresholdbottom, filtername, incoming);
           break;
         case 'include':
-          return _rangeInclude(filtertopid, thresholdtop, thresholdbottom, incoming);
+          return _rangeInclude(filtertopid, thresholdtop, thresholdbottom, filtername, incoming);
           break;
         default:
 
@@ -103,8 +103,8 @@ var  common_options_init = null;
 
   }
 
-  function _rangeInclude(filtertopid, thresholdtop, thresholdbottom, incoming) {
-    if (incoming[filtertopid] <= thresholdtop && incoming[filtertopid] >= thresholdbottom) {
+  function _rangeInclude(filtertopid, thresholdtop, thresholdbottom, filtername, incoming) {
+    if (incoming[filtertopid] <= thresholdtop && incoming[filtertopid] >= thresholdbottom && filtername == incoming['name']) {
       console.log('range between: ' + thresholdtop + ' and ' + thresholdbottom);
       console.log('include event value: ' + incoming[filtertopid]);
       return false;
@@ -113,8 +113,8 @@ var  common_options_init = null;
     }
   }
 
-  function _rangeExclude(filtertopid, thresholdtop, thresholdbottom, incoming) {
-    if (incoming[filtertopid] <= thresholdtop && incoming[filtertopid] >= thresholdbottom) {
+  function _rangeExclude(filtertopid, thresholdtop, thresholdbottom, filtername, incoming) {
+    if (incoming[filtertopid] <= thresholdtop && incoming[filtertopid] >= thresholdbottom && filtername == incoming['name']) {
       console.log('range between: ' + thresholdtop + ' and ' + thresholdbottom);
       console.log('exclude event value: ' + incoming[filtertopid]);
       return true;
